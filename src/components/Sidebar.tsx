@@ -1,11 +1,12 @@
-import type { FC } from 'react';
+import { useContext, type FC } from 'react';
+import DispatchContext from '../context/DispatchContext';
 import type { StickyNoteType } from '../types';
 
 interface Props {
-  onClick: (color: StickyNoteType['color']) => void;
   selectedColor: StickyNoteType['color'] | null;
 }
-const Sidebar: FC<Props> = ({ onClick, selectedColor }) => {
+const Sidebar: FC<Props> = ({ selectedColor }) => {
+  const { dispatch } = useContext(DispatchContext);
   const colors: StickyNoteType['color'][] = [
     'red',
     'blue',
@@ -17,7 +18,10 @@ const Sidebar: FC<Props> = ({ onClick, selectedColor }) => {
     'orange',
   ];
   const handleClick = (color: StickyNoteType['color']) => {
-    onClick(color);
+    dispatch({
+      type: 'SidebarColorSelected',
+      payload: color
+    });
   };
 
   return (

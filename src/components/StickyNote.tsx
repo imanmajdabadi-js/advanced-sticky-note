@@ -1,4 +1,5 @@
-import { type FC } from 'react';
+import { useContext, type FC } from 'react';
+import DispatchContext from '../context/DispatchContext';
 import type { StickyNoteType } from '../types';
 
 export interface TitleChangeEventArg {
@@ -8,28 +9,26 @@ export interface TitleChangeEventArg {
 
 interface Props {
   item: StickyNoteType;
-  onTitleChange: (arg: TitleChangeEventArg) => void;
-  onStickyNoteClick: (id: number) => void;
-  onContextMenu: (e: React.MouseEvent<HTMLDivElement>, id: number) => void;
-  onMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onMouseUp?: () => void;
   selected: boolean;
-  onKeyDown: (e: React.KeyboardEvent) => void;
-  onTopBorderMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onBottomBorderMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onLeftBorderMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onRightBorderMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onLeftTopCornerMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
-  onRightTopCornerMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onTitleChange?: (arg: TitleChangeEventArg) => void;
+  onStickyNoteClick?: (id: number) => void;
+  onContextMenu?: (e: React.MouseEvent<HTMLDivElement>, id: number) => void;
+  onMouseUp?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+  onTopBorderMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onBottomBorderMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onLeftBorderMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onRightBorderMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onLeftTopCornerMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
+  onRightTopCornerMouseDown?: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const StickyNote: FC<Props> = ({
   item,
+  selected,
   onTitleChange,
   onStickyNoteClick,
   onContextMenu,
-  selected,
-  onMouseDown,
   onKeyDown,
   onMouseUp,
   onBottomBorderMouseDown,
@@ -39,51 +38,62 @@ const StickyNote: FC<Props> = ({
   onRightBorderMouseDown,
   onRightTopCornerMouseDown,
 }) => {
+
+  const {dispatch} = useContext(DispatchContext);
+
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onTitleChange({ text: e.target.value, noteId: item.id });
+    onTitleChange?.({ text: e.target.value, noteId: item.id });
   };
 
   const handleRightClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    onContextMenu(e, item.id);
+    onContextMenu?.(e, item.id);
   };
+
   const handleStickyNoteClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onStickyNoteClick(item.id);
+    onStickyNoteClick?.(item.id);
   };
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onMouseDown(item.id, e);
+    // onMouseDown?.(item.id, e);
+    dispatch({
+      type: 'StickyNoteMouseDown',
+      payload: item.id
+    });
   };
 
   const handleBorderTopMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onTopBorderMouseDown(item.id, e);
+    onTopBorderMouseDown?.(item.id, e);
   };
 
   const handleBorderBottomMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onBottomBorderMouseDown(item.id, e);
+    onBottomBorderMouseDown?.(item.id, e);
   };
 
   const handleBorderLeftMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onLeftBorderMouseDown(item.id, e);
+    onLeftBorderMouseDown?.(item.id, e);
   };
 
   const handleRightBorderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onRightBorderMouseDown(item.id, e);
+    onRightBorderMouseDown?.(item.id, e);
   };
 
   const handleLeftTopCornerMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onLeftTopCornerMouseDown(item.id, e);
+    onLeftTopCornerMouseDown?.(item.id, e);
   };
 
   const handleRightTopCornerMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    onRightTopCornerMouseDown(item.id, e);
+    onRightTopCornerMouseDown?.(item.id, e);
   };
+
   return (
     <div
       tabIndex={0}

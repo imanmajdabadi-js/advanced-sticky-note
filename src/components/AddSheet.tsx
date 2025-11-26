@@ -2,7 +2,7 @@ import { Add } from 'iconsax-reactjs';
 import { type FC } from 'react';
 
 interface Props {
-  onAddSheet: () => void;
+  onAddSheet?: () => void;
 }
 
 const AddSheetButton: FC<Props> = ({ onAddSheet }) => {
