@@ -28,7 +28,7 @@ export interface AppState {
 }
 
 
-export type ActionTypes = 'SidebarColorSelected' | 'StickyNoteMouseDown'
+export type ActionTypes = 'SidebarColorSelected' | 'StickyNoteMouseDown'|'StickyNoteChangeTitle'|'StickyNoteIncreas'
 
 
 export interface Action {

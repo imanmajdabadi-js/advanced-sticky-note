@@ -10,7 +10,6 @@ export interface TitleChangeEventArg {
 interface Props {
   item: StickyNoteType;
   selected: boolean;
-  onTitleChange?: (arg: TitleChangeEventArg) => void;
   onStickyNoteClick?: (id: number) => void;
   onContextMenu?: (e: React.MouseEvent<HTMLDivElement>, id: number) => void;
   onMouseUp?: () => void;
@@ -26,7 +25,6 @@ interface Props {
 const StickyNote: FC<Props> = ({
   item,
   selected,
-  onTitleChange,
   onStickyNoteClick,
   onContextMenu,
   onKeyDown,
@@ -38,12 +36,13 @@ const StickyNote: FC<Props> = ({
   onRightBorderMouseDown,
   onRightTopCornerMouseDown,
 }) => {
-
-  const {dispatch} = useContext(DispatchContext);
-
+  const { dispatch } = useContext(DispatchContext);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onTitleChange?.({ text: e.target.value, noteId: item.id });
+    dispatch({
+      type: 'StickyNoteChangeTitle',
+      payload: { text: e.target.value, noteId: item.id },
+    });
   };
 
   const handleRightClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -60,7 +59,7 @@ const StickyNote: FC<Props> = ({
     // onMouseDown?.(item.id, e);
     dispatch({
       type: 'StickyNoteMouseDown',
-      payload: item.id
+      payload: item.id,
     });
   };
 

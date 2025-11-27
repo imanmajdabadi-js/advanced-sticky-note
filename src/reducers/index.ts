@@ -8,6 +8,7 @@ const handlers: ReducerActionType = {
     ...oldState,
     selectedNoteId: action.payload,
   }),
+  StickyNoteChangeTitle: handleStickyNoteChangeTitle,
 };
 
 const reducer = (oldState: AppState, action: Action): AppState => {
@@ -24,6 +25,23 @@ function handleSidebarColorSelected(oldState: AppState, action: Action) {
   return {
     ...oldState,
     selectedColor: action.payload === oldState.selectedColor ? null : action.payload,
+  };
+}
+
+function handleStickyNoteChangeTitle(oldState: AppState, action: Action) {
+  const { text, noteId } = action.payload;
+  return {
+    ...oldState,
+    sheets: oldState.sheets.map((sheet) =>
+      sheet.id !== oldState.activeSheetId
+        ? sheet
+        : {
+            ...sheet,
+            stickyNotes: sheet.stickyNotes.map((note) =>
+              note.id === noteId ? { ...note, title: text } : note
+            ),
+          }
+    ),
   };
 }
 
