@@ -16,22 +16,24 @@ export interface SheetType {
 }
 
 export interface AppState {
-  sheets: SheetType[],
-  activeSheetId: number,
-  selectedColor: StickyNoteType['color'] | null,
-  selectedNoteId: number | null,
-  offestX: number,
-  offsetY: number,
-  isDragging: boolean,
-  resizeDirections: 'top' | 'left' | 'bottom' | 'right' | 'topLeft' | 'topRight' | null,
-  isResizing: boolean,
+  sheets: SheetType[];
+  activeSheetId: number;
+  selectedColor: StickyNoteType['color'] | null;
+  selectedNoteId: number | null;
+  offestX: number;
+  offsetY: number;
+  isDragging: boolean;
+  resizeDirections: 'top' | 'left' | 'bottom' | 'right' | 'topLeft' | 'topRight' | null;
+  isResizing: boolean;
 }
 
-
-export type ActionTypes = 'SidebarColorSelected' | 'StickyNoteMouseDown'|'StickyNoteChangeTitle'|'StickyNoteIncreas'
-
+export type ActionTypes =
+  | 'SidebarColorSelected'
+  | 'StickyNoteMouseDown'
+  | 'StickyNoteChangeTitle'
+  | 'StickyNoteIncreasZindex';
 
 export interface Action {
   type: ActionTypes;
-  payload: any | null
+  payload: any | null;
 }

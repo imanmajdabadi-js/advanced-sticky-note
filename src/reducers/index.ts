@@ -9,6 +9,7 @@ const handlers: ReducerActionType = {
     selectedNoteId: action.payload,
   }),
   StickyNoteChangeTitle: handleStickyNoteChangeTitle,
+  StickyNoteIncreasZindex: handleIncreaseZindexStickyNote,
 };
 
 const reducer = (oldState: AppState, action: Action): AppState => {
@@ -41,6 +42,20 @@ function handleStickyNoteChangeTitle(oldState: AppState, action: Action) {
               note.id === noteId ? { ...note, title: text } : note
             ),
           }
+    ),
+  };
+}
+
+function handleIncreaseZindexStickyNote(oldState: AppState, action: Action) {
+  const { noteId } = action.payload;
+  const currentSheet = oldState.sheets.find((sheet) => sheet.id === oldState.activeSheetId);
+  const zindexArray = currentSheet!.stickyNotes.map((note) => note.zIndex);
+  const maxZindex = Math.max(...zindexArray);
+
+  return {
+    ...oldState,
+    action: currentSheet?.stickyNotes.map((note) =>
+      note.id === noteId ? note : { ...note, zIndex: maxZindex + 1 }
     ),
   };
 }

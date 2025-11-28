@@ -51,12 +51,15 @@ const StickyNote: FC<Props> = ({
 
   const handleStickyNoteClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    dispatch({
+      type: 'StickyNoteIncreasZindex',
+      payload: item.id,
+    });
     onStickyNoteClick?.(item.id);
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    // onMouseDown?.(item.id, e);
     dispatch({
       type: 'StickyNoteMouseDown',
       payload: item.id,
