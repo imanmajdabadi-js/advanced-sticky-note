@@ -1,4 +1,6 @@
 import type { Action, ActionTypes, AppState } from '../types';
+import { getMaxZindex } from '../utils/getMaxZindex';
+import { updateActiveSheetNote } from '../utils/updateActiveSheetNote';
 
 type ReducerActionType = Record<ActionTypes, (oldState: AppState, action: Action) => AppState>;
 
@@ -6,7 +8,7 @@ const handlers: ReducerActionType = {
   SidebarColorSelected: handleSidebarColorSelected,
   StickyNoteMouseDown: (oldState, action) => ({
     ...oldState,
-    selectedNoteId: action.payload,
+    selectedNoteId: action.payload === oldState.activeSheetId ? null : action.payload,
   }),
   StickyNoteChangeTitle: handleStickyNoteChangeTitle,
   StickyNoteIncreasZindex: handleIncreaseZindexStickyNote,
@@ -30,34 +32,30 @@ function handleSidebarColorSelected(oldState: AppState, action: Action) {
 }
 
 function handleStickyNoteChangeTitle(oldState: AppState, action: Action) {
-  const { text, noteId } = action.payload;
-  return {
-    ...oldState,
-    sheets: oldState.sheets.map((sheet) =>
-      sheet.id !== oldState.activeSheetId
-        ? sheet
-        : {
-            ...sheet,
-            stickyNotes: sheet.stickyNotes.map((note) =>
-              note.id === noteId ? { ...note, title: text } : note
-            ),
-          }
-    ),
-  };
+  const { noteId, title } = action.payload;
+  return updateActiveSheetNote({
+    state: oldState,
+    noteId,
+    updateFn: (note) => ({
+      ...note,
+      title,
+    }),
+  });
 }
 
 function handleIncreaseZindexStickyNote(oldState: AppState, action: Action) {
   const { noteId } = action.payload;
-  const currentSheet = oldState.sheets.find((sheet) => sheet.id === oldState.activeSheetId);
-  const zindexArray = currentSheet!.stickyNotes.map((note) => note.zIndex);
-  const maxZindex = Math.max(...zindexArray);
 
-  return {
-    ...oldState,
-    action: currentSheet?.stickyNotes.map((note) =>
-      note.id === noteId ? note : { ...note, zIndex: maxZindex + 1 }
-    ),
-  };
+  const maxZ = getMaxZindex(oldState);
+
+  return updateActiveSheetNote({
+    state: oldState,
+    noteId,
+    updateFn: (note) => ({
+      ...note,
+      zIndex: maxZ + 1,
+    }),
+  });
 }
 
 export default reducer;
