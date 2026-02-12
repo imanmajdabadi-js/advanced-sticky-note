@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useStickyNotesStorage } from '../hooks/useStickyNotesStorage';
 import type { SheetType, StickyNoteType } from '../types';
 import AddSheetButton from './AddSheet';
 import DeleteStickyNotesButton from './DeleteStickyNotesButton';
@@ -7,6 +8,35 @@ import Sidebar from './Sidebar';
 import StickyNote, { type TitleChangeEventArg } from './StickyNote';
 
 function Main() {
+  const initialSheets: SheetType[] = [
+    {
+      id: 1,
+      title: 'Sheet 1',
+      stickyNotes: [
+        {
+          id: 1,
+          title: 'Note 1',
+          color: 'green',
+          width: 100,
+          height: 100,
+          positionX: 50,
+          positionY: 100,
+          zIndex: 2,
+        },
+        {
+          id: 2,
+          title: 'Note 2',
+          color: 'red',
+          width: 100,
+          height: 100,
+          positionX: 200,
+          positionY: 150,
+          zIndex: 5,
+        },
+      ],
+    },
+  ];
+  const { sheets, setSheets } = useStickyNotesStorage(initialSheets);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [resizeDirections, setResizeDirections] = useState<
@@ -18,34 +48,6 @@ function Main() {
   const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState<StickyNoteType['color'] | null>(null);
   const [activeSheetId, setActiveSheetId] = useState<number>(1);
-  const [sheets, setSheets] = useState<SheetType[]>([
-    {
-      id: 1,
-      title: 'Sheet 1',
-      stickyNotes: [
-        {
-          id: 1,
-          width: 100,
-          height: 100,
-          positionX: 50,
-          positionY: 100,
-          zIndex: 2,
-          color: 'green',
-          title: 'Note 1',
-        },
-        {
-          id: 2,
-          width: 100,
-          height: 100,
-          positionX: 200,
-          positionY: 150,
-          zIndex: 5,
-          color: 'red',
-          title: 'Note 2',
-        },
-      ],
-    },
-  ]);
 
   const handleSelectSheet = (id: number) => {
     setActiveSheetId(id);
