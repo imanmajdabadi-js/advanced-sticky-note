@@ -30,4 +30,4 @@ Master branch is functional but has redundant state logic leading to potential p
 
 ## Screenshot
 
-!['ScreenShot](https://raw.github.com/imanmajdabadi-js/advanced-sticky-note/master/public/assets/images/screenshot/stickyNote-screen.png)
+!['ScreenShot](https://raw.github.com/imanmajdabadi-js/advanced-sticky-note/master/public/assets/images/screenshot/sticky-note-screen.png)

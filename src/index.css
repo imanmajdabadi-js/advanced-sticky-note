@@ -1,6 +1,28 @@
 @import 'tailwindcss';
 
+@layer base {
+  html {
+    direction: rtl;
+  }
 
-body {
-  font-family: Clash;
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    background: #f8fafc;
+    color: #172033;
+    font-family:
+      Vazirmatn,
+      IRANSans,
+      'Segoe UI',
+      Tahoma,
+      Arial,
+      sans-serif;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
 }
