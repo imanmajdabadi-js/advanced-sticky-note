@@ -520,20 +520,20 @@ function Main() {
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onClick={handleContainerClick}
-        className={`relative flex-1 overflow-hidden bg-[linear-gradient(rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:34px_34px] ${
+        className={`relative flex-1 overflow-hidden bg-[linear-gradient(rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-size-[34px_34px] ${
           selectedColor ? 'cursor-crosshair' : 'cursor-default'
         }`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_18%,rgba(251,191,36,0.26),transparent_24%),radial-gradient(circle_at_78%_14%,rgba(45,212,191,0.20),transparent_26%),radial-gradient(circle_at_56%_86%,rgba(244,114,182,0.16),transparent_28%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-slate-200/60" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-white/80 via-transparent to-slate-200/60" />
 
         <section
           onClick={(e) => e.stopPropagation()}
-          className="absolute right-3 top-3 z-40 w-[calc(100%_-_1.5rem)] max-w-[520px] rounded-[1.5rem] border border-white/70 bg-white/70 p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:right-5 sm:top-5 sm:rounded-[2rem] sm:p-4"
+          className="absolute right-3 top-3 z-40 w-[calc(100%-1.5rem)] max-w-[520px] rounded-3xl border border-white/70 bg-white/70 p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:right-5 sm:top-5 sm:rounded-4xl sm:p-4"
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
             <div>
-              <p className="text-xs font-bold text-cyan-700">بورد یادداشت خلاق</p>
+              <p className="text-xs font-bold text-cyan-700">بورد یادداشت </p>
               <h1 className="mt-1 text-xl font-black tracking-normal text-slate-950 sm:text-2xl">
                 {activeSheet?.title || 'صفحه بدون نام'}
               </h1>

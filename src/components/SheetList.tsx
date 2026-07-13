@@ -9,14 +9,9 @@ interface Props {
   onSelectSheet: (id: number) => void;
 }
 
-const SheetList: FC<Props> = ({
-  sheets,
-  activeSheetId,
-  onTitleChange,
-  onSelectSheet,
-}) => {
+const SheetList: FC<Props> = ({ sheets, activeSheetId, onTitleChange, onSelectSheet }) => {
   return (
-    <div className="flex max-w-[calc(100vw_-_150px)] items-center gap-2 overflow-x-auto rounded-3xl border border-white/70 bg-white/65 p-2 shadow-[0_18px_45px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:max-w-[min(62vw,620px)]">
+    <div className="flex max-w-[calc(100vw-150px)] items-center gap-2 overflow-x-auto rounded-3xl border border-white/70 bg-white/65 p-2 shadow-[0_18px_45px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:max-w-[min(62vw,620px)]">
       {sheets.map((sheet) => (
         <div
           key={sheet.id}
@@ -27,10 +22,7 @@ const SheetList: FC<Props> = ({
           }`}
           onClick={() => onSelectSheet(sheet.id)}
         >
-          <Sheet
-            sheet={sheet}
-            onTitleChange={(value) => onTitleChange(sheet.id, value)}
-          />
+          <Sheet sheet={sheet} onTitleChange={(value) => onTitleChange(sheet.id, value)} />
         </div>
       ))}
     </div>
