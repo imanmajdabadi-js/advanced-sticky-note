@@ -17,7 +17,8 @@ const Sheet: FC<Props> = ({ sheet, onTitleChange }) => {
         onChange={handleChangeTitle}
         value={sheet.title}
         aria-label="نام صفحه"
-        className="w-full cursor-pointer bg-transparent text-center text-xs font-bold text-slate-700 outline-0"
+        placeholder="نام صفحه"
+        className="w-full cursor-text bg-transparent text-center text-xs font-bold text-slate-700 outline-0 placeholder:text-slate-400"
       />
     </div>
   );

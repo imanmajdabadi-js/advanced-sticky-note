@@ -56,7 +56,7 @@ function Main() {
   const handleAddSheet = () => {
     const newSheet: SheetType = {
       id: Math.random(),
-      title: `Sheet ${sheets.length + 1}`,
+      title: `صفحه ${sheets.length + 1}`,
       stickyNotes: [],
     };
     setSheets((prev) => [...prev, newSheet]);
@@ -520,7 +520,9 @@ function Main() {
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onClick={handleContainerClick}
-        className="relative flex-1 overflow-hidden bg-[linear-gradient(rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:34px_34px]"
+        className={`relative flex-1 overflow-hidden bg-[linear-gradient(rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:34px_34px] ${
+          selectedColor ? 'cursor-crosshair' : 'cursor-default'
+        }`}
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_18%,rgba(251,191,36,0.26),transparent_24%),radial-gradient(circle_at_78%_14%,rgba(45,212,191,0.20),transparent_26%),radial-gradient(circle_at_56%_86%,rgba(244,114,182,0.16),transparent_28%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-slate-200/60" />
@@ -585,6 +587,15 @@ function Main() {
             item={note}
           />
         ))}
+
+        {activeSheet && activeSheet.stickyNotes.length === 0 && (
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-72 -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-dashed border-slate-300/80 bg-white/55 px-6 py-5 text-center shadow-[0_18px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+            <p className="text-sm font-black text-slate-800">بوم خالی است</p>
+            <p className="mt-2 text-xs leading-6 text-slate-500">
+              از نوار راست یک رنگ انتخاب کن و روی بوم کلیک کن.
+            </p>
+          </div>
+        )}
 
         <div
           onClick={(e) => e.stopPropagation()}

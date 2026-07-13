@@ -12,7 +12,9 @@ const DeleteStickyNotesButton: FC<Props> = ({ onDelete }) => {
     <button
       onClick={handleDelete}
       type="button"
-      className="absolute left-5 top-5 z-40 cursor-pointer rounded-2xl border border-red-200/80 bg-white/80 px-4 py-2 text-xs font-bold text-red-600 shadow-[0_14px_34px_rgba(185,28,28,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-red-50"
+      aria-label="پاک کردن همه یادداشت‌ها"
+      title="پاک کردن همه یادداشت‌ها"
+      className="absolute left-5 top-5 z-40 cursor-pointer rounded-2xl border border-red-200/80 bg-white/80 px-4 py-2 text-xs font-bold text-red-600 shadow-[0_14px_34px_rgba(185,28,28,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:bg-red-50 active:scale-95"
     >
       پاک کردن همه
     </button>

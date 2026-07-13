@@ -140,6 +140,8 @@ const StickyNote: FC<Props> = ({
   return (
     <div
       tabIndex={0}
+      aria-label="یادداشت قابل جابه‌جایی"
+      title="برای جابه‌جایی بکشید"
       onKeyDown={onKeyDown}
       onMouseUp={onMouseUp}
       onMouseDown={handleMouseDown}
@@ -153,15 +155,29 @@ const StickyNote: FC<Props> = ({
         top: item.positionY,
         left: item.positionX,
       }}
-      className={`group flex items-center rounded-2xl border p-3 shadow-[0_18px_35px_rgba(15,23,42,0.18)] outline-none transition duration-200 ${theme.surface} ${
+      className={`group flex cursor-grab select-none items-center rounded-2xl border p-3 shadow-[0_18px_35px_rgba(15,23,42,0.18)] outline-none transition duration-200 active:cursor-grabbing ${theme.surface} ${
         selected
           ? 'border-white/90 ring-4 ring-slate-950/15 shadow-[0_24px_50px_rgba(15,23,42,0.28)]'
-          : 'border-white/70 hover:shadow-[0_22px_42px_rgba(15,23,42,0.22)]'
+          : 'border-white/70 hover:-translate-y-0.5 hover:shadow-[0_22px_42px_rgba(15,23,42,0.22)]'
       }`}
     >
       <div
         className={`pointer-events-none absolute left-1/2 top-0 h-5 w-14 -translate-x-1/2 -translate-y-1/2 rotate-[-2deg] rounded-md ${theme.tape} shadow-sm backdrop-blur-sm`}
       />
+
+      <div
+        className={`pointer-events-none absolute right-3 top-3 grid grid-cols-2 gap-1 opacity-35 transition group-hover:opacity-70 ${
+          item.color === 'indigo' ? 'text-white' : 'text-slate-700'
+        }`}
+        aria-hidden="true"
+      >
+        <span className="h-1 w-1 rounded-full bg-current" />
+        <span className="h-1 w-1 rounded-full bg-current" />
+        <span className="h-1 w-1 rounded-full bg-current" />
+        <span className="h-1 w-1 rounded-full bg-current" />
+        <span className="h-1 w-1 rounded-full bg-current" />
+        <span className="h-1 w-1 rounded-full bg-current" />
+      </div>
 
       <div className="pointer-events-none absolute inset-x-3 top-3 h-px bg-white/50" />
 
@@ -194,8 +210,14 @@ const StickyNote: FC<Props> = ({
             onMouseDown={handleRightTopCornerMouseDown}
             className="absolute right-0 top-0 z-50 h-4 w-4 cursor-ne-resize rounded-bl-xl rounded-tr-2xl bg-slate-950 shadow-lg"
           />
-          <div className="absolute bottom-0 z-50 h-4 w-4 cursor-sw-resize rounded-bl-2xl rounded-tr-xl bg-slate-950 shadow-lg" />
-          <div className="absolute bottom-0 right-0 z-50 h-4 w-4 cursor-se-resize rounded-br-2xl rounded-tl-xl bg-slate-950 shadow-lg" />
+          <div
+            onMouseDown={handleBorderBottomMouseDown}
+            className="absolute bottom-0 z-50 h-4 w-4 cursor-ns-resize rounded-bl-2xl rounded-tr-xl bg-slate-950 shadow-lg"
+          />
+          <div
+            onMouseDown={handleBorderBottomMouseDown}
+            className="absolute bottom-0 right-0 z-50 h-4 w-4 cursor-ns-resize rounded-br-2xl rounded-tl-xl bg-slate-950 shadow-lg"
+          />
         </>
       )}
       {selected ? (
@@ -203,12 +225,12 @@ const StickyNote: FC<Props> = ({
           autoFocus
           value={item.title}
           placeholder="ایده..."
-          className={`relative z-10 mx-auto h-full w-full border-none bg-transparent text-center text-sm font-bold leading-6 outline-0 ${theme.text}`}
+          className={`relative z-10 mx-auto h-full w-full cursor-text border-none bg-transparent text-center text-sm font-bold leading-6 outline-0 ${theme.text}`}
           onChange={handleTextChange}
           type="text"
         />
       ) : (
-        <span className={`relative z-10 mx-auto line-clamp-4 px-1 text-center text-sm font-bold leading-6 ${theme.text}`}>
+        <span className={`relative z-10 mx-auto line-clamp-4 break-words px-1 text-center text-sm font-bold leading-6 ${theme.text}`}>
           {item.title || 'یادداشت تازه'}
         </span>
       )}

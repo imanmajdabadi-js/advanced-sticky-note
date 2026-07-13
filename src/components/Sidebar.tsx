@@ -60,8 +60,16 @@ const Sidebar: FC<Props> = ({ onClick, selectedColor }) => {
 
   return (
     <aside className="flex h-full w-20 flex-col items-center gap-3 border-l border-white/60 bg-white/75 px-2 py-4 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:w-28 sm:gap-4 sm:px-3 sm:py-5">
-      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-950 text-lg font-black text-white shadow-xl shadow-slate-300/60 sm:h-11 sm:w-11">
-        ن
+      <div
+        className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-950 text-white shadow-xl shadow-slate-300/60 sm:h-11 sm:w-11"
+        title="بورد یادداشت"
+        aria-label="بورد یادداشت"
+      >
+        <div className="relative h-5 w-4 rounded-sm bg-white">
+          <span className="absolute right-1 top-1 h-0.5 w-2 rounded-full bg-slate-950" />
+          <span className="absolute right-1 top-2.5 h-0.5 w-2 rounded-full bg-slate-950" />
+          <span className="absolute bottom-0 left-0 h-2 w-2 rounded-tl-sm bg-cyan-300" />
+        </div>
       </div>
 
       <div className="text-center">
