@@ -23,6 +23,56 @@ interface Props {
   onRightTopCornerMouseDown: (id: number, e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
+const noteThemes: Record<
+  StickyNoteType['color'],
+  {
+    surface: string;
+    text: string;
+    tape: string;
+  }
+> = {
+  yellow: {
+    surface: 'bg-gradient-to-br from-amber-100 via-yellow-200 to-orange-200',
+    text: 'text-amber-950 placeholder:text-amber-700/50',
+    tape: 'bg-amber-300/70',
+  },
+  green: {
+    surface: 'bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200',
+    text: 'text-teal-950 placeholder:text-teal-700/50',
+    tape: 'bg-teal-300/70',
+  },
+  blue: {
+    surface: 'bg-gradient-to-br from-sky-100 via-blue-200 to-indigo-200',
+    text: 'text-slate-950 placeholder:text-blue-700/50',
+    tape: 'bg-blue-300/70',
+  },
+  purple: {
+    surface: 'bg-gradient-to-br from-violet-100 via-purple-200 to-fuchsia-200',
+    text: 'text-purple-950 placeholder:text-purple-700/50',
+    tape: 'bg-purple-300/70',
+  },
+  pink: {
+    surface: 'bg-gradient-to-br from-rose-100 via-pink-200 to-fuchsia-200',
+    text: 'text-rose-950 placeholder:text-rose-700/50',
+    tape: 'bg-pink-300/70',
+  },
+  red: {
+    surface: 'bg-gradient-to-br from-rose-200 via-red-200 to-orange-200',
+    text: 'text-red-950 placeholder:text-red-700/50',
+    tape: 'bg-red-300/70',
+  },
+  orange: {
+    surface: 'bg-gradient-to-br from-orange-100 via-amber-200 to-red-200',
+    text: 'text-orange-950 placeholder:text-orange-700/50',
+    tape: 'bg-orange-300/70',
+  },
+  indigo: {
+    surface: 'bg-gradient-to-br from-indigo-400 via-violet-400 to-slate-500',
+    text: 'text-white placeholder:text-white/60',
+    tape: 'bg-white/30',
+  },
+};
+
 const StickyNote: FC<Props> = ({
   item,
   onTitleChange,
@@ -84,6 +134,9 @@ const StickyNote: FC<Props> = ({
     e.stopPropagation();
     onRightTopCornerMouseDown(item.id, e);
   };
+
+  const theme = noteThemes[item.color];
+
   return (
     <div
       tabIndex={0}
@@ -99,53 +152,65 @@ const StickyNote: FC<Props> = ({
         position: 'absolute',
         top: item.positionY,
         left: item.positionX,
-        background: item.color,
       }}
-      className="flex items-center rounded-lg "
+      className={`group flex items-center rounded-2xl border p-3 shadow-[0_18px_35px_rgba(15,23,42,0.18)] outline-none transition duration-200 ${theme.surface} ${
+        selected
+          ? 'border-white/90 ring-4 ring-slate-950/15 shadow-[0_24px_50px_rgba(15,23,42,0.28)]'
+          : 'border-white/70 hover:shadow-[0_22px_42px_rgba(15,23,42,0.22)]'
+      }`}
     >
+      <div
+        className={`pointer-events-none absolute left-1/2 top-0 h-5 w-14 -translate-x-1/2 -translate-y-1/2 rotate-[-2deg] rounded-md ${theme.tape} shadow-sm backdrop-blur-sm`}
+      />
+
+      <div className="pointer-events-none absolute inset-x-3 top-3 h-px bg-white/50" />
+
       {selected && (
         <>
           <div
-            className="absolute cursor-ns-resize top-0 h-2 w-full bg-linear-to-r from-teal-400 to-yellow-200"
+            className="absolute top-0 h-2 w-full cursor-ns-resize rounded-t-2xl bg-gradient-to-r from-slate-950 via-cyan-500 to-emerald-300"
             onMouseDown={handleBorderTopMouseDown}
           />
 
           <div
             onMouseDown={handleBorderBottomMouseDown}
-            className="absolute cursor-ns-resize bottom-0 h-2 w-full bg-linear-to-r from-teal-400 to-yellow-200"
+            className="absolute bottom-0 h-2 w-full cursor-ns-resize rounded-b-2xl bg-gradient-to-r from-emerald-300 via-cyan-500 to-slate-950"
           />
           <div
             onMouseDown={handleBorderLeftMouseDown}
-            className="absolute cursor-ew-resize left-0 h-full w-2 bg-linear-to-r from-teal-400 to-yellow-200"
+            className="absolute left-0 h-full w-2 cursor-ew-resize rounded-l-2xl bg-gradient-to-b from-slate-950 via-cyan-500 to-emerald-300"
           />
           <div
             onMouseDown={handleRightBorderMouseDown}
-            className="absolute cursor-ew-resize right-0 h-full w-2 bg-linear-to-r from-teal-400 to-yellow-200"
+            className="absolute right-0 h-full w-2 cursor-ew-resize rounded-r-2xl bg-gradient-to-b from-emerald-300 via-cyan-500 to-slate-950"
           />
 
           <div
             onMouseDown={handleLeftTopCornerMouseDown}
-            className="absolute cursor-nw-resize left-0 top-0 w-2 h-2 z-50 bg-linear-to-r from-pink-500 to-rose-500"
+            className="absolute left-0 top-0 z-50 h-4 w-4 cursor-nw-resize rounded-br-xl rounded-tl-2xl bg-slate-950 shadow-lg"
           />
 
           <div
             onMouseDown={handleRightTopCornerMouseDown}
-            className="absolute cursor-ne-resize right-0 top-0 w-2 h-2 z-50 bg-linear-to-r from-pink-500 to-rose-500"
+            className="absolute right-0 top-0 z-50 h-4 w-4 cursor-ne-resize rounded-bl-xl rounded-tr-2xl bg-slate-950 shadow-lg"
           />
-          <div className="absolute cursor-sw-resize bottom-0  w-2 h-2 z-50 bg-linear-to-r from-pink-500 to-rose-500" />
-          <div className="absolute cursor-se-resize right-0 bottom-0  w-2 h-2 z-50 bg-linear-to-r from-pink-500 to-rose-500" />
+          <div className="absolute bottom-0 z-50 h-4 w-4 cursor-sw-resize rounded-bl-2xl rounded-tr-xl bg-slate-950 shadow-lg" />
+          <div className="absolute bottom-0 right-0 z-50 h-4 w-4 cursor-se-resize rounded-br-2xl rounded-tl-xl bg-slate-950 shadow-lg" />
         </>
       )}
       {selected ? (
         <input
           autoFocus
           value={item.title}
-          className="w-24 border-none outline-0 text-center mx-auto text-white"
+          placeholder="ایده..."
+          className={`relative z-10 mx-auto h-full w-full border-none bg-transparent text-center text-sm font-bold leading-6 outline-0 ${theme.text}`}
           onChange={handleTextChange}
           type="text"
         />
       ) : (
-        <label className="mx-auto">{item.title}</label>
+        <span className={`relative z-10 mx-auto line-clamp-4 px-1 text-center text-sm font-bold leading-6 ${theme.text}`}>
+          {item.title || 'یادداشت تازه'}
+        </span>
       )}
     </div>
   );

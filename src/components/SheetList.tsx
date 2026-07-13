@@ -16,14 +16,14 @@ const SheetList: FC<Props> = ({
   onSelectSheet,
 }) => {
   return (
-    <div className="flex items-center space-x-2 p-4">
+    <div className="flex max-w-[calc(100vw_-_150px)] items-center gap-2 overflow-x-auto rounded-3xl border border-white/70 bg-white/65 p-2 shadow-[0_18px_45px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:max-w-[min(62vw,620px)]">
       {sheets.map((sheet) => (
         <div
           key={sheet.id}
-          className={`cursor-pointer p-2 rounded ${
+          className={`cursor-pointer rounded-2xl transition duration-200 ${
             sheet.id === activeSheetId
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-200'
+              ? 'bg-cyan-100/80 p-1 ring-2 ring-cyan-300/80 shadow-lg shadow-cyan-200/70'
+              : 'p-1 hover:bg-slate-100'
           }`}
           onClick={() => onSelectSheet(sheet.id)}
         >

@@ -11,26 +11,26 @@ function Main() {
   const initialSheets: SheetType[] = [
     {
       id: 1,
-      title: 'Sheet 1',
+      title: 'ایده‌های امروز',
       stickyNotes: [
         {
           id: 1,
-          title: 'Note 1',
+          title: 'اولویت مهم',
           color: 'green',
-          width: 100,
-          height: 100,
-          positionX: 50,
-          positionY: 100,
+          width: 132,
+          height: 116,
+          positionX: 40,
+          positionY: 240,
           zIndex: 2,
         },
         {
           id: 2,
-          title: 'Note 2',
+          title: 'بعداً بررسی شود',
           color: 'red',
-          width: 100,
-          height: 100,
-          positionX: 200,
-          positionY: 150,
+          width: 144,
+          height: 120,
+          positionX: 155,
+          positionY: 315,
           zIndex: 5,
         },
       ],
@@ -511,16 +511,62 @@ function Main() {
   const activeSheet = sheets.find((sheet) => sheet.id === activeSheetId);
 
   return (
-    <div className=" flex min-h-screen bg-linear-to-r from-slate-900 to-slate-700">
-      <div className="max-w-32 bg-linear-to-r from-violet-200 to-pink-200 flex flex-col flex-1 z-50">
+    <main className="flex h-screen overflow-hidden bg-[#f6f7fb] text-slate-900">
+      <div className="z-50 shrink-0">
         <Sidebar selectedColor={selectedColor} onClick={handleColorClick} />
       </div>
+
       <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onClick={handleContainerClick}
-        className=" relative flex-1"
+        className="relative flex-1 overflow-hidden bg-[linear-gradient(rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:34px_34px]"
       >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_18%,rgba(251,191,36,0.26),transparent_24%),radial-gradient(circle_at_78%_14%,rgba(45,212,191,0.20),transparent_26%),radial-gradient(circle_at_56%_86%,rgba(244,114,182,0.16),transparent_28%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-slate-200/60" />
+
+        <section
+          onClick={(e) => e.stopPropagation()}
+          className="absolute right-3 top-3 z-40 w-[calc(100%_-_1.5rem)] max-w-[520px] rounded-[1.5rem] border border-white/70 bg-white/70 p-3 shadow-[0_20px_60px_rgba(15,23,42,0.12)] backdrop-blur-2xl sm:right-5 sm:top-5 sm:rounded-[2rem] sm:p-4"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <div>
+              <p className="text-xs font-bold text-cyan-700">بورد یادداشت خلاق</p>
+              <h1 className="mt-1 text-xl font-black tracking-normal text-slate-950 sm:text-2xl">
+                {activeSheet?.title || 'صفحه بدون نام'}
+              </h1>
+              <p className="mt-2 max-w-md text-[11px] leading-6 text-slate-500 sm:text-xs">
+                رنگ را انتخاب کن، روی بوم کلیک کن و ایده را همان‌جا جابه‌جا یا بزرگ‌تر کن.
+              </p>
+            </div>
+
+            <div className="grid w-20 place-items-center self-start rounded-3xl bg-slate-950 px-4 py-3 text-white shadow-xl shadow-slate-300/80">
+              <span className="text-xl font-black sm:text-2xl">
+                {activeSheet?.stickyNotes.length ?? 0}
+              </span>
+              <span className="text-[10px] font-bold text-white/70">یادداشت</span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-bold text-slate-600">
+              کشیدن برای جابه‌جایی
+            </span>
+            <span className="rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-bold text-slate-600">
+              انتخاب برای ویرایش متن
+            </span>
+            <span
+              className={`rounded-full px-3 py-1.5 text-[11px] font-bold ${
+                selectedColor
+                  ? 'bg-cyan-100 text-cyan-800 ring-1 ring-cyan-200'
+                  : 'bg-slate-100 text-slate-500'
+              }`}
+            >
+              {selectedColor ? 'رنگ آماده ساخت یادداشت است' : 'هیچ رنگی انتخاب نشده'}
+            </span>
+          </div>
+        </section>
+
         {activeSheet?.stickyNotes.map((note) => (
           <StickyNote
             onRightTopCornerMouseDown={handleRightTopCornerMouseDown}
@@ -540,20 +586,22 @@ function Main() {
           />
         ))}
 
-        <div className="p-4 absolute right-0 bottom-0 flex items-center">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="absolute bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3"
+        >
           <SheetList
             activeSheetId={activeSheetId}
             sheets={sheets}
             onTitleChange={handleTitleChange}
             onSelectSheet={handleSelectSheet}
           />
-          <div className="flex items-center space-x-2">
-            <AddSheetButton onAddSheet={handleAddSheet} />
-          </div>
+          <AddSheetButton onAddSheet={handleAddSheet} />
         </div>
+
         <DeleteStickyNotesButton onDelete={() => handleDeleteStickyNotesClick(activeSheetId)} />
       </div>
-    </div>
+    </main>
   );
 }
 
